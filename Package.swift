@@ -6,6 +6,9 @@ let package = Package(
     name: "CoreSwift",
     products: [
         .library(
+            name: "CoreCxx",
+            targets: ["CoreCxx"]),
+        .library(
             name: "CoreSwift",
             targets: ["CoreSwift"]),
     ],
