@@ -27,7 +27,6 @@
 #include <CoreSwift/Compiler.h>
 #include <CoreSwift/Language.h>
 #include <CoreSwift/FeaturesCxx.h>
-#include <CoreSwift/FeaturesObjC.h>
 #else
 #include <Compiler.h>
 #include <Language.h>
