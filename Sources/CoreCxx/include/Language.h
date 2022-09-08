@@ -23,7 +23,7 @@
 #ifndef CORE_SWIFT_DEFINE_LANGUAGE_H
 #define CORE_SWIFT_DEFINE_LANGUAGE_H
 
-#if COCOAPODS
+#if __has_include(<CoreSwift/Compiler.h>)
 #include <CoreSwift/Compiler.h>
 #else
 #include <Compiler.h>
@@ -53,7 +53,7 @@
 #   define CS_LANG_SWIFT 0
 #endif
 
-#if COCOAPODS
+#if __has_include(<CoreSwift/LanguageCxx.h>)
 #include <CoreSwift/LanguageCxx.h>
 #include <CoreSwift/LanguageObjC.h>
 #include <CoreSwift/LanguageSwift.h>

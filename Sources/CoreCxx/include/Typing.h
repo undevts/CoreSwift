@@ -23,7 +23,7 @@
 #ifndef CORE_SWIFT_TYPING_H
 #define CORE_SWIFT_TYPING_H
 
-#if COCOAPODS
+#if __has_include(<CoreSwift/Language.h>)
 #include <CoreSwift/Language.h>
 #include <CoreSwift/Features.h>
 #else

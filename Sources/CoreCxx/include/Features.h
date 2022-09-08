@@ -23,7 +23,7 @@
 #ifndef CORE_SWIFT_FEATURES_H
 #define CORE_SWIFT_FEATURES_H
 
-#if COCOAPODS
+#if __has_include(<CoreSwift/Compiler.h>)
 #include <CoreSwift/Compiler.h>
 #include <CoreSwift/Language.h>
 #include <CoreSwift/FeaturesCxx.h>
