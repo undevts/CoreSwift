@@ -147,6 +147,25 @@ extension Collection {
         return collection
     }
 
+
+    /// Returns the result of combining the elements of the collection using the given closure.
+    ///
+    /// - Parameters:
+    ///   - collection: A collection stores the transformed elements.
+    ///   - transform: A mapping closure. `transform` accepts an element of this collection as its parameter,
+    /// returns a transformed value which type same as `Collection.Element`.
+    /// - Returns: The final result. If the collection has no elements, the result is `collection`.
+    @inlinable
+    @discardableResult
+    public func map<C>(
+        into collection: inout C, transform: (Element) throws -> C.Element
+    ) rethrows -> C where C: RangeReplaceableCollection {
+        for element in self {
+            collection.append(try transform(element))
+        }
+        return collection
+    }
+
     /// Returns an array containing the concatenated results of calling the given transformation with
     /// each element of this collection.
     ///
@@ -154,8 +173,9 @@ extension Collection {
     /// returns a sequence or collection.
     /// - Returns: The resulting flattened array.
     @inlinable
-    public func flatMapIndexed<SegmentOfResult>(_ transform: (Element, Index) throws -> SegmentOfResult) rethrows
-            -> [SegmentOfResult.Element] where SegmentOfResult: Sequence {
+    public func flatMapIndexed<SegmentOfResult>(
+        _ transform: (Element, Index) throws -> SegmentOfResult
+    ) rethrows -> [SegmentOfResult.Element] where SegmentOfResult: Sequence {
         if isEmpty {
             return []
         }
@@ -191,6 +211,22 @@ extension Collection {
             i = index(after: i)
         } while i < endIndex
         return result
+    }
+
+    /// Returns the first non-null value produced by `transform` function being applied
+    /// to elements of this collection in iteration order, or `nil` if no non-null value was produced.
+    ///
+    /// - Parameter transform: A mapping closure.
+    /// - Returns: The first non-null result of the given closure. If all elements in the collection
+    /// after transform is `nil`, returns `nil`.
+    @inlinable
+    public func firstOf<R>(_ transform: (Element) throws -> R?) rethrows -> R? {
+        for item in self {
+            if let result = try transform(item) {
+                return result
+            }
+        }
+        return nil
     }
 
     /// Calls the given closure on each element in the collection in the same order as a for-in loop.

@@ -89,6 +89,24 @@ final class CollectionTests: XCTestCase {
         }
         XCTAssertEqual(result, 10)
     }
+    
+    func testFirstOf() {
+        do {
+            let array: [Int] = [1, 3, 4]
+            let first = array.firstOf { $0 == 3 ? 999 : nil }
+            XCTAssertEqual(first!, 999)
+        }
+        do {
+            let array: [Double] = [1.2, 3.0, 4.4, 5.0]
+            let first = array.firstOf { Int(exactly: $0) }
+            XCTAssertEqual(first!, 3)
+        }
+        do {
+            let range = 1..<100
+            let first = range.firstOf { $0 > 50 ? String($0) : nil }
+            XCTAssertEqual(first!, "51")
+        }
+    }
 
     func testForEachIndexed() {
         let array = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
