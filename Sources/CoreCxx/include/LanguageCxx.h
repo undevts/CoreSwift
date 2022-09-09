@@ -49,28 +49,12 @@
 #endif
 
 #if CS_LANG_CXX
-#   define CS_CPP_NAME_SPACE_BEGIN(NAME) namespace NAME {
-#   define CS_CPP_NAME_SPACE_END    }
+#   define CS_CPP_NAME_SPACE_BEGIN(NAME)    namespace NAME {
+#   define CS_CPP_NAME_SPACE_END            }
 #else
 #   define CS_CPP_NAME_SPACE_BEGIN(NAME)
 #   define CS_CPP_NAME_SPACE_END
 #endif
-
-#if CS_LANG_CXX
-#   define CPP_FILE_BEGIN(NAME) CS_ASSUME_NONNULL_BEGIN \
-                                CS_CPP_NAME_SPACE_BEGIN(NAME)
-#   define CPP_FILE_END         CS_CPP_NAME_SPACE_END \
-                                CS_ASSUME_NONNULL_END
-#else
-#   define CPP_FILE_BEGIN(NAME) CS_ASSUME_NONNULL_BEGIN
-#   define CPP_FILE_END         CS_ASSUME_NONNULL_END
-#endif
-
-#define CS_CPP_FILE_BEGIN   CPP_FILE_BEGIN(sp)
-#define CS_CPP_FILE_END     CPP_FILE_END
-
-#define CS_NAME_SPACE_BEGIN CS_CPP_NAME_SPACE_BEGIN(sp)
-#define CS_NAME_SPACE_END   CS_CPP_NAME_SPACE_END
 
 // ------------- NULLABLE ------------------
 // http://clang.llvm.org/docs/AttributeReference.html#nullability-attributes
@@ -111,27 +95,31 @@ inline SOURCE wrap(const TARGET& value) {                       \
 
 #define CS_POINTER_CAST(type, source) (reinterpret_cast<type>(source))
 
+#define CS_VALUE_CAST(type, source) (static_cast<type>(source))
+
 #else // CS_LANG_CXX
 
 #define CS_SIMPLE_CONVERSION(CxxType, CRef)                     \
-inline CxxType *unwrap(CRef value) {                            \
+static inline CxxType *unwrap(CRef value) {                     \
     return (CxxType*)(value);                                   \
 }                                                               \
                                                                 \
-inline CRef wrap(const CxxType* value) {                        \
+static inline CRef wrap(const CxxType* value) {                 \
     return (CRef)(const_cast<CxxType*>(value));                 \
 }                                                               \
 
 #define CS_STATIC_CONVERSION(TARGET, SOURCE)                    \
-inline TARGET unwrap(const SOURCE& value) {                     \
+static inline TARGET unwrap(const SOURCE& value) {              \
     return (TARGET)(value);                                     \
 }                                                               \
                                                                 \
-inline SOURCE wrap(const TARGET& value) {                       \
+static inline SOURCE wrap(const TARGET& value) {                \
     return (SOURCE)(value);                                     \
 }                                                               \
 
 #define CS_POINTER_CAST(type, source) ((type)(source))
+
+#define CS_VALUE_CAST(type, source) ((type)(source))
 
 #endif // CS_LANG_CXX
 
