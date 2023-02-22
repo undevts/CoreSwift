@@ -8,3 +8,4 @@ DerivedData/
 .netrc
 .idea
 .vscode
+cmake-build-debug

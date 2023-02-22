@@ -26,7 +26,10 @@
 #if COCOAPODS
 #include <CoreSwift/Language.h>
 #include <CoreSwift/Features.h>
-#else
+#elif CS_HEADER_STYLE_CMAKE
+#include <CoreCxx/Language.h>
+#include <CoreCxx/Features.h>
+#else // SWIFT_PACKAGE
 #include <Language.h>
 #include <Features.h>
 #endif

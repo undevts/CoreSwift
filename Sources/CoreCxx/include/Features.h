@@ -27,8 +27,11 @@
 #include <CoreSwift/Compiler.h>
 #include <CoreSwift/Language.h>
 #include <CoreSwift/FeaturesCxx.h>
-#include <CoreSwift/FeaturesObjC.h>
-#else
+#elif CS_HEADER_STYLE_CMAKE
+#include <CoreCxx/Compiler.h>
+#include <CoreCxx/Language.h>
+#include <CoreCxx/FeaturesCxx.h>
+#else // SWIFT_PACKAGE
 #include <Compiler.h>
 #include <Language.h>
 #include <FeaturesCxx.h>

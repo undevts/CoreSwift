@@ -20,10 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CORE_SWIFT_DEFINE_LANGUAGE_CXX_H
-#define CORE_SWIFT_DEFINE_LANGUAGE_CXX_H
+#ifndef CORE_SWIFT_LANGUAGE_CXX_H
+#define CORE_SWIFT_LANGUAGE_CXX_H
 
-#ifndef CORE_SWIFT_DEFINE_LANGUAGE_H
+#ifndef CORE_SWIFT_LANGUAGE_H
 #warning "Importing this file directly may leading errors."
 #endif
 
@@ -66,10 +66,10 @@
 #   define CPP_FILE_END         CS_ASSUME_NONNULL_END
 #endif
 
-#define CS_CPP_FILE_BEGIN   CPP_FILE_BEGIN(sp)
+#define CS_CPP_FILE_BEGIN   CPP_FILE_BEGIN(cs)
 #define CS_CPP_FILE_END     CPP_FILE_END
 
-#define CS_NAME_SPACE_BEGIN CS_CPP_NAME_SPACE_BEGIN(sp)
+#define CS_NAME_SPACE_BEGIN CS_CPP_NAME_SPACE_BEGIN(cs)
 #define CS_NAME_SPACE_END   CS_CPP_NAME_SPACE_END
 
 // ------------- NULLABLE ------------------
@@ -135,4 +135,4 @@ inline SOURCE wrap(const TARGET& value) {                       \
 
 #endif // CS_LANG_CXX
 
-#endif // CORE_SWIFT_DEFINE_LANGUAGE_CXX_H
+#endif // CORE_SWIFT_LANGUAGE_CXX_H

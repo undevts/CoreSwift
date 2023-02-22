@@ -20,21 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CORE_SWIFT_LANGUAGE_SWIFT_H
-#define CORE_SWIFT_LANGUAGE_SWIFT_H
+#ifndef CORE_SWIFT_PLATFORM_H
+#define CORE_SWIFT_PLATFORM_H
 
-#ifndef CORE_SWIFT_LANGUAGE_H
-#warning "Importing this file directly may cause errors."
+#if COCOAPODS
+#include <CoreSwift/PlatformOS.h>
+#elif CS_HEADER_STYLE_CMAKE
+#include <CoreCxx/PlatformOS.h>
+#else // SWIFT_PACKAGE
+#include <PlatformOS.h>
 #endif
 
-#if defined(CF_SWIFT_NAME)
-#   define CS_SWIFT_NAME(_name) CF_SWIFT_NAME(_name)
-#else
-#   if __has_attribute(swift_name)
-#       define CS_SWIFT_NAME(_name) __attribute__((swift_name(#_name)))
-#   else
-#       define CS_SWIFT_NAME(_name)
-#   endif
-#endif
-
-#endif // CORE_SWIFT_LANGUAGE_SWIFT_H
+#endif // CORE_SWIFT_PLATFORM_H

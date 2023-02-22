@@ -20,10 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CORE_SWIFT_DEFINE_LANGUAGE_OBJC_H
-#define CORE_SWIFT_DEFINE_LANGUAGE_OBJC_H
+#ifndef CORE_SWIFT_LANGUAGE_OBJC_H
+#define CORE_SWIFT_LANGUAGE_OBJC_H
 
-#ifndef CORE_SWIFT_DEFINE_LANGUAGE_H
+#ifndef CORE_SWIFT_LANGUAGE_H
 #warning "Importing this file directly may leading errors."
 #endif
 
@@ -145,4 +145,4 @@ typedef unsigned int NSUInteger;
 
 #endif // !__has_include(<NSObjCRuntime.h>)
 
-#endif // CORE_SWIFT_DEFINE_LANGUAGE_OBJC_H
+#endif // CORE_SWIFT_LANGUAGE_OBJC_H

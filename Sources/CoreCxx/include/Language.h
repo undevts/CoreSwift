@@ -20,14 +20,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CORE_SWIFT_DEFINE_LANGUAGE_H
-#define CORE_SWIFT_DEFINE_LANGUAGE_H
+#ifndef CORE_SWIFT_LANGUAGE_H
+#define CORE_SWIFT_LANGUAGE_H
 
 #if COCOAPODS
 #include <CoreSwift/Compiler.h>
-#else
+#elif CS_HEADER_STYLE_CMAKE
+#include <CoreCxx/Compiler.h>
+#else // SWIFT_PACKAGE
 #include <Compiler.h>
 #endif
+
+/**
+ * LANG() - which languages currently support.
+ */
+#define LANG(NAME) (defined CS_LANG_##NAME && CS_LANG_##NAME)
 
 #if (__cplusplus)
 #   define CS_LANG_CXX 1
@@ -57,10 +64,14 @@
 #include <CoreSwift/LanguageCxx.h>
 #include <CoreSwift/LanguageObjC.h>
 #include <CoreSwift/LanguageSwift.h>
-#else
+#elif CS_HEADER_STYLE_CMAKE
+#include <CoreCxx/LanguageCxx.h>
+#include <CoreCxx/LanguageObjC.h>
+#include <CoreCxx/LanguageSwift.h>
+#else // SWIFT_PACKAGE
 #include <LanguageCxx.h>
 #include <LanguageObjC.h>
 #include <LanguageSwift.h>
 #endif
 
-#endif // CORE_SWIFT_DEFINE_LANGUAGE_H
+#endif // CORE_SWIFT_LANGUAGE_H
