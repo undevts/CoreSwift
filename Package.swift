@@ -16,11 +16,17 @@ let package = Package(
             name: "CoreSwift",
             targets: ["CoreSwift"]),
         .library(
+            name: "CoreSystem",
+            targets: ["CoreSystem"]),
+        .library(
             name: "CoreIOKit",
             targets: ["CoreIOKit"]),
         .library(
             name: "CoreFilesystem",
             targets: ["CoreFilesystem"]),
+        .library(
+            name: "CoreEnvironment",
+            targets: ["CoreEnvironment"]),
     ],
     dependencies: [
         // CoreSwift designed has no any dependencies.
@@ -36,9 +42,15 @@ let package = Package(
             dependencies: ["CoreCxxInternal"],
             swiftSettings: swiftSettings),
         .target(
+            name: "CoreSystem",
+            dependencies: [
+                "CoreSwift"
+            ],
+            swiftSettings: swiftSettings),
+        .target(
             name: "CoreIOKit",
             dependencies: [
-                "CoreSwift",
+                "CoreSystem",
                 "CoreCxxInternal"
             ],
             swiftSettings: swiftSettings),
@@ -46,8 +58,13 @@ let package = Package(
             name: "CoreFilesystem",
             dependencies: [
                 "CoreIOKit",
-                "CoreSwift",
-                "CoreCxxInternal"
+            ],
+            path: "Sources/CoreFilesystems",
+            swiftSettings: swiftSettings),
+        .target(
+            name: "CoreEnvironment",
+            dependencies: [
+                "CoreFilesystem"
             ],
             swiftSettings: swiftSettings),
         .testTarget(
@@ -55,6 +72,8 @@ let package = Package(
             dependencies: ["CoreSwift"]),
         .testTarget(
             name: "CoreFilesystemTests",
-            dependencies: ["CoreFilesystem"]),
-    ]
+            dependencies: ["CoreFilesystem", "CoreEnvironment"],
+            path: "Tests/CoreFilesystemTest"),
+    ],
+    cxxLanguageStandard: .cxx20
 )

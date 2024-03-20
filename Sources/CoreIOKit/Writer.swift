@@ -7,7 +7,7 @@ public protocol Writer {
     mutating func flush() -> IOResult<Void>
 
     mutating func write(buffer: Bytes) -> IOResult<UInt>
-    mutating func writeAll(buffer: UnsafeBufferPointer<UInt8>) -> IOResult<()>
+    mutating func writeAll(buffer: UnsafeBufferPointer<UInt8>) -> IOResult<Void>
 }
 
 extension Writer {
@@ -17,7 +17,7 @@ extension Writer {
         }
     }
 
-    public mutating func writeAll(buffer: UnsafeBufferPointer<UInt8>) -> IOResult<()> {
+    public mutating func writeAll(buffer: UnsafeBufferPointer<UInt8>) -> IOResult<Void> {
         IODefault.writeAll(&self, buffer: buffer)
     }
 }

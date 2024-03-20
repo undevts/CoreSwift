@@ -208,3 +208,18 @@ extension Result where Failure: Equatable {
         }
     }
 }
+
+extension Result where Failure == Error {
+    /// Calls the specified function block and returns its encapsulated result
+    /// if invocation was successful, catching any Throwable exception that was
+    /// thrown from the block function execution and encapsulating it as a failure.
+    @inlinable
+    @inline(__always)
+    public static func catching(_ method: () throws -> Success) -> Result {
+        do {
+            return .success(try method())
+        } catch {
+            return .failure(error)
+        }
+    }
+}

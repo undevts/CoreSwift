@@ -6,7 +6,28 @@ import XCTest
 import CoreSwift
 #endif
 
+// import WinSDK
+// import Foundation
+
 final class BytesTests: XCTestCase {
+    // func testFoobar() {
+    //     var size: DWORD = 0
+    //     size = GetCurrentDirectoryW(size, nil)
+    //     print("size = \(size)")
+    //     let buffer = UnsafeMutablePointer<WCHAR>.allocate(capacity: Int(size))
+    //     GetCurrentDirectoryW(size, buffer)
+    //     let count = Int(size) * 2
+    //     let next = UnsafeMutableRawPointer(buffer)
+    //         .assumingMemoryBound(to: UInt8.self)
+    //     let storage = Bytes.Storage(start: next, end: next + count, current: next + count)
+    //     print("count = \(storage.count)")
+    //     let bytes = Bytes(storage: storage)
+    //     print("count = \(bytes.count)")
+    //     print(bytes.toString() ?? "NONE")
+    //     FileManager.default.createFile(atPath: "C:\\Users\\qazyn\\Documents\\swift\\CoreSwift\\Tests\\CoreSwiftTests\\Utilities\\BytesTests.data", contents: bytes.toData())
+    //     // buffer.deallocate()
+    // }
+
     func testCopyToContiguousArray() {
         let bytes = Bytes([1, 2, 3, 4])
         let array = bytes._copyToContiguousArray()

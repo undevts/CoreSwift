@@ -12,10 +12,14 @@
 #if CS_LANG_CXX
 #include <cstdint>
 #include <cstddef>
+#include <cstdbool>
 #else
 #include <stdint.h>
 #include <stddef.h>
+#include <stdbool.h>
 #endif
+
+CS_C_FILE_BEGIN
 
 static inline uint8_t* CS_NONNULL cci_null_bytes() {
 #pragma GCC diagnostic push
@@ -66,6 +70,51 @@ typedef struct {
     uint8_t data[4096];
 } cci_buffer_4096;
 
+static inline cci_buffer_32 cci_uninit_buffer_32() {
+    cci_buffer_32 local;
+    return local;
+}
+
+static inline cci_buffer_64 cci_uninit_buffer_64() {
+    cci_buffer_64 local;
+    return local;
+}
+
+static inline cci_buffer_128 cci_uninit_buffer_128() {
+    cci_buffer_128 local;
+    return local;
+}
+
+static inline cci_buffer_256 cci_uninit_buffer_256() {
+    cci_buffer_256 local;
+    return local;
+}
+
+static inline cci_buffer_384 cci_uninit_buffer_384() {
+    cci_buffer_384 local;
+    return local;
+}
+
+static inline cci_buffer_512 cci_uninit_buffer_512() {
+    cci_buffer_512 local;
+    return local;
+}
+
+static inline cci_buffer_1024 cci_uninit_buffer_1024() {
+    cci_buffer_1024 local;
+    return local;
+}
+
+static inline cci_buffer_2048 cci_uninit_buffer_2048() {
+    cci_buffer_2048 local;
+    return local;
+}
+
+static inline cci_buffer_4096 cci_uninit_buffer_4096() {
+    cci_buffer_4096 local;
+    return local;
+}
+
 static inline uint8_t* CS_NONNULL cci_bytes_plus(uint8_t* CS_NONNULL bytes, NSUInteger value) {
     return bytes + (size_t)value;
 }
@@ -73,5 +122,9 @@ static inline uint8_t* CS_NONNULL cci_bytes_plus(uint8_t* CS_NONNULL bytes, NSUI
 static inline uint8_t* CS_NONNULL cci_bytes_minus(uint8_t* CS_NONNULL bytes, NSUInteger value) {
     return bytes - (size_t)value;
 }
+
+bool cci_unrolled_find_uint8(uint8_t *CS_NONNULL bytes, size_t count, uint8_t needle);
+
+CS_C_FILE_END
 
 #endif // CORE_CXX_INTERNAL_BUFFER_H

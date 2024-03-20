@@ -1,7 +1,9 @@
-#if canImport(Glibc)
-import Glibc
-#else
+#if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
 import Darwin.C
+#elseif os(Windows)
+import ucrt
+#elseif canImport(Glibc)
+import Glibc
 #endif
 
 #if SWIFT_PACKAGE

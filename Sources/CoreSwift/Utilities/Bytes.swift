@@ -19,14 +19,20 @@ public struct Bytes {
         self.storage = storage
     }
 
+    @inlinable
+    @inline(__always)
     public init() {
         storage = Storage.empty()
     }
 
+    @inlinable
+    @inline(__always)
     public init(exactlyCapacity: Int) {
         storage = Storage.allocate(exactly: exactlyCapacity)
     }
 
+    @inlinable
+    @inline(__always)
     public init(capacity: Int) {
         storage = Storage.allocate(capacity: capacity)
     }
@@ -50,7 +56,7 @@ public struct Bytes {
     @usableFromInline
     mutating func _reserveCapacity(_ n: Int, unique: Bool) {
         let makeCopy = storage.capacity < n || (unique && !isStorageUnique())
-        if _slowPath(makeCopy) {
+        if makeCopy {
             Storage.expand(&storage, capacity: n)
         }
     }
@@ -130,7 +136,7 @@ extension Bytes: Hashable {
 
     // Unfortunately swift compiler has a long term issue which cause:
     // switch bytes {
-    // case ASCII.period: <- error: Enum case 'period' not found in type 'Bytes'
+    // case ASCII.fullStop: <- error: Enum case 'period' not found in type 'Bytes'
     //     break
     // }
     //
@@ -176,8 +182,9 @@ extension Bytes {
     }
 
     @inlinable
+    @inline(__always)
     public static func empty() -> Bytes {
-        Bytes(storage: Storage.empty())
+        Bytes()
     }
 
     public func withUnsafeBuffer<Result>(_ body: (UnsafeBufferPointer<UInt8>) throws -> Result) rethrows -> Result {
@@ -228,10 +235,10 @@ extension Bytes {
         _ body: (_ start: UnsafeMutablePointer<UInt8>, _ end: UnsafeMutablePointer<UInt8>,
             _ current: inout UnsafeMutablePointer<UInt8>) throws -> Result
     ) rethrows -> Result? {
-        _reserveCapacity(capacity, unique: true)
         if _slowPath(storage.start == Bytes.null) {
             return nil
         }
+        _reserveCapacity(capacity, unique: true)
         return try storage.use { start, end, current in
             try body(start, end, &current)
         }
@@ -463,6 +470,11 @@ extension Bytes: RangeReplaceableCollection {
 
     @inlinable
     public mutating func append(_ other: UnsafeMutableBufferPointer<UInt8>) {
+        append(UnsafeBufferPointer(other))
+    }
+
+    @inlinable
+    public mutating func append(_ other: UnsafeBufferPointer<UInt8>) {
         guard other.count > 0, let base = other.baseAddress else {
             return
         }
@@ -565,8 +577,9 @@ extension Bytes: RangeReplaceableCollection {
     mutating func _remove(at i: Pointer, count: Int) {
         if isStorageUnique() {
             storage.remove(at: i, count: count)
+        } else {
+            storage = storage.removeUseCopy(at: i, count: count)
         }
-        storage = storage.removeUseCopy(at: i, count: count)
     }
 
     @inlinable

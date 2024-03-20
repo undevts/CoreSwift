@@ -1,17 +1,38 @@
 public struct IODefault {
+    static let bufferSize = 0x2000
+
+    // https://github.com/rust-lang/rust/commit/f74fe8bf4ca773e416d4da3a3bf37045b06ea3de
+    @inline(__always)
+    static func readSize(_ hint: Int?) -> Int? {
+        guard let hint else {
+            return nil
+        }
+        var (next, overflow) = hint.addingReportingOverflow(0x23FF)
+        if overflow {
+            return nil
+        }
+        // https://doc.rust-lang.org/std/primitive.usize.html#method.checked_next_multiple_of
+        (next, overflow) = (next / bufferSize).multipliedReportingOverflow(by: bufferSize)
+        return overflow ? nil : next
+    }
+
     // This uses an adaptive system to extend the vector when it fills. We want to
     // avoid paying to allocate and zero a huge chunk of memory if the reader only
     // has 4 bytes while still making large reads if the reader does have a ton
     // of data to return. Simply tacking on an extra DEFAULT_BUF_SIZE space every
     // time is 4,500 times (!) slower than a default reservation size of 32 if the
     // reader has a very small amount of data to return.
-    public static func readToEnd<R>(_ reader: inout R, buffer: inout Bytes) -> IOResult<Int> where R: Reader {
+    public static func readAll<R>(_ reader: inout R, buffer: inout Bytes, hint: Int?) -> IOResult<Int> where R: Reader {
         let startCount = buffer.count
         let startCapacity = buffer.capacity
 
+        // Optionally limit the maximum bytes read on each iteration.
+        // This adds an arbitrary fiddle factor to allow for more data than we expect.
+        // TODO: let maxReadSize = readSize(hint)
+
         while true {
             if buffer.count == buffer.capacity {
-                // buf is full, need more space
+                // buffer is full, need more space
                 buffer.reserveCapacity(32)
             }
             switch reader.read(into: &buffer) {
@@ -44,6 +65,13 @@ public struct IODefault {
                     }
                 }
             }
+        }
+    }
+
+    public static func readToString<R>(_ reader: inout R, buffer: inout Bytes) -> IOResult<String> where R: Reader {
+        var bytes = Bytes()
+        return readAll(&reader, buffer: &bytes, hint: nil).map { _ -> String in
+            bytes.toString()
         }
     }
 

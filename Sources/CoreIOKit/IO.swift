@@ -28,6 +28,10 @@ public struct IO {
     // size is capped on both platforms.
     @_transparent
     public static var readLimit: Int {
+#if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
+        Int(Int32.max - 1)
+#else
         Int.max - 1
+#endif
     }
 }

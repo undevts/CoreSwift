@@ -127,6 +127,13 @@ extension Optional {
             return value
         }
     }
+
+    @inlinable
+    public mutating func take() -> Optional<Wrapped> {
+        var result = Optional<Wrapped>.none
+        swap(&self, &result)
+        return result
+    }
 }
 
 extension Optional where Wrapped: Collection {

@@ -234,7 +234,7 @@ extension Bytes {
         private var buffer: Buffer
 
         @inlinable
-        init(buffer: Buffer) {
+        init(buffer: __owned Buffer) {
             self.buffer = buffer
             // Can not use buffer.start() here.
             super.init(origin: nil, start: Bytes.null, end: Bytes.null, current: Bytes.null)
@@ -372,6 +372,7 @@ extension Bytes.Storage {
         return result
     }
 
+    @inline(__always)
     @usableFromInline
     static func allocate(capacity: Int) -> Bytes.Storage {
         precondition(capacity >= 0)
@@ -381,21 +382,21 @@ extension Bytes.Storage {
         if _fastPath(capacity < 4097) {
             switch capacity {
             case 0...32:
-                return Bytes.BufferStorage(buffer: cci_buffer_32())
+                return Bytes.BufferStorage(buffer: cci_uninit_buffer_32())
             case 33...64:
-                return Bytes.BufferStorage(buffer: cci_buffer_64())
+                return Bytes.BufferStorage(buffer: cci_uninit_buffer_64())
             case 65...128:
-                return Bytes.BufferStorage(buffer: cci_buffer_128())
+                return Bytes.BufferStorage(buffer: cci_uninit_buffer_128())
             case 129...256:
-                return Bytes.BufferStorage(buffer: cci_buffer_256())
+                return Bytes.BufferStorage(buffer: cci_uninit_buffer_256())
             case 257...512:
-                return Bytes.BufferStorage(buffer: cci_buffer_512())
+                return Bytes.BufferStorage(buffer: cci_uninit_buffer_512())
             case 513...1024:
-                return Bytes.BufferStorage(buffer: cci_buffer_1024())
+                return Bytes.BufferStorage(buffer: cci_uninit_buffer_1024())
             case 1025...2048:
-                return Bytes.BufferStorage(buffer: cci_buffer_2048())
+                return Bytes.BufferStorage(buffer: cci_uninit_buffer_2048())
             default:
-                return Bytes.BufferStorage(buffer: cci_buffer_4096())
+                return Bytes.BufferStorage(buffer: cci_uninit_buffer_4096())
             }
         }
         let start = UnsafeMutablePointer<UInt8>.allocate(capacity: capacity)

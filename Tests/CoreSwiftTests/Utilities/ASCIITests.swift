@@ -8,11 +8,11 @@ import CoreSwift
 
 final class ASCIITests: XCTestCase {
     func testCompare() {
-        XCTAssertEqual(ASCII.underscore, ASCII.underscore)
+        XCTAssertEqual(ASCII.lowLine, ASCII.lowLine)
         XCTAssertLessThan(ASCII(0x41), ASCII(0x42))
         XCTAssertGreaterThan(ASCII(0x43), ASCII(0x42))
-        XCTAssert(ASCII.underscore == 0x5F)
-        XCTAssert(0x5F == ASCII.underscore)
+        XCTAssert(ASCII.lowLine == 0x5F)
+        XCTAssert(0x5F == ASCII.lowLine)
     }
 
     func testSwitch() {
